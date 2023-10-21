@@ -98,22 +98,26 @@ const List = () => {
     });
   };
 
+  const sortList = (list, sortOrder) => {
+    return list?.sort((a, b) => {
+      if (sortOrder === "asc") {
+        if (a.name > b.name) return 1;
+        if (a.name < b.name) return -1;
+        return 0;
+      } else {
+        if (a.name > b.name) return -1;
+        if (a.name < b.name) return 1;
+        return 0;
+      }
+    });
+  };
+
   const applySortFilterOnData = (sortOrder, filterParams) => {
     setLoading(true);
-    const list = [...universityList?.data];
+    const list = universityList?.data ? [...universityList.data] : [];
 
     if (sortOrder) {
-      const sortedList = list?.sort((a, b) => {
-        if (sortOrder === "asc") {
-          if (a.name > b.name) return 1;
-          if (a.name < b.name) return -1;
-          return 0;
-        } else {
-          if (a.name > b.name) return -1;
-          if (a.name < b.name) return 1;
-          return 0;
-        }
-      });
+      const sortedList = sortList(list, sortOrder);
 
       arrangeListData(sortedList);
     }
@@ -172,7 +176,7 @@ const List = () => {
     }
   };
 
-  const checkListData = () => {
+  const renderListData = () => {
     if (filteredUniversityList?.data?.length) {
       return (
         <Grid
@@ -299,7 +303,10 @@ const List = () => {
         <Grid item height={"50vh"} display={"flex"} alignItems={"end"}>
           <Tooltip title="Add New">
             <IconButton
-              sx={{ border: "1px solid grey" }}
+              sx={{
+                border: "3px solid grey",
+                backgroundColor: "darkgoldenrod",
+              }}
               onClick={() => handleAdd()}
             >
               <AddIcon />
@@ -312,22 +319,24 @@ const List = () => {
     return null;
   };
 
+  const renderAddOrEditComponent = () => (
+    <AddOrEditData
+      isEdit={isEdit}
+      selectedData={selectedCollege}
+      onClose={() => {
+        handleClose();
+      }}
+    />
+  );
+
   const renderListOrOtherComponents = () => {
     if (loading) {
       return <CircularProgress />;
     } else {
       if (!isEdit && !isAdd) {
-        return checkListData();
+        return renderListData();
       }
-      return (
-        <AddOrEditData
-          isEdit={isEdit}
-          selectedData={selectedCollege}
-          onClose={() => {
-            handleClose();
-          }}
-        />
-      );
+      return renderAddOrEditComponent();
     }
   };
 

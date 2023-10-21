@@ -1,5 +1,5 @@
 {
-  "name": "api-integration",
+  "name": "university-crud",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

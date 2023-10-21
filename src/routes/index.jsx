@@ -8,7 +8,7 @@ const UniversityContainer = React.lazy(() =>
 const AppRoutes = () => (
   <>
     <Routes>
-      <Route path="/listData" element={<UniversityContainer />} />
+      <Route path="/" element={<UniversityContainer />} />
     </Routes>
   </>
 );
